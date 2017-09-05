@@ -15,15 +15,14 @@ io.on('connection', (socket) => {
   console.log('New user connected');
 
   // socket.emit => Envia un mensaje al cliente desde el servidor
-  socket.emit('newMessage', {
-    from: 'santi@gmail.com',
-    text: 'Hey, que pasa perra hpta',
-    createdAt: 123
-  });
-
-  // Se ejecuta al recibir un mensaje desde el cliente
+  // socket.on => Se ejecuta al recibir un mensaje desde el cliente
   socket.on('createMessage', (mensaje) => {
     console.log('createMessage', mensaje);
+    io.emit('newMessage', {
+      from: mensaje.from,
+      text: mensaje.text,
+      createdAt: new Date().getTime()
+    })
   });
 
   socket.on('disconnect', () => {
