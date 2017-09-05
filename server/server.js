@@ -15,7 +15,18 @@ io.on('connection', (socket) => {
   console.log('New user connected');
 
   // socket.emit => Envia un mensaje al cliente desde el servidor
+  socket.emit('newMessage', {
+    from: 'Admin',
+    text: 'Bienvenido al chat'
+  });
+
   // socket.on => Se ejecuta al recibir un mensaje desde el cliente
+  socket.broadcast.emit('newMessage', {
+    from: 'Admin',
+    text: 'Un nuevo usuario ha ingresado',
+    createdAt: new Date().getTime()
+  });
+
   socket.on('createMessage', (mensaje) => {
     console.log('createMessage', mensaje);
     io.emit('newMessage', {
