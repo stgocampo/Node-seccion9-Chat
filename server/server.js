@@ -21,8 +21,9 @@ io.on('connection', (socket) => {
   // socket.on => Se ejecuta al recibir un mensaje desde el cliente
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'Un nuevo usuario ha ingresado'));
 
-  socket.on('createMessage', (mensaje) => {
+  socket.on('createMessage', (mensaje, callback) => {
     io.emit('newMessage', generateMessage(mensaje.from, mensaje.text));
+    callback("Esto es desde el servidor");
   });
 
   socket.on('disconnect', () => {
