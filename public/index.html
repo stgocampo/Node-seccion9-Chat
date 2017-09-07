@@ -4,21 +4,30 @@
 
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 
-<body>
-  <p>Bienvenido al chat!</p>
+<body class="chat">
+  <div class="chat__sidebar">
+    <h3>Personas</h3>
+    <div id="users">
 
-  <ol id="messages">
+    </div>
+  </div>
 
-  </ol>
+  <div class="chat__main">
+    <ol id="messages" class="chat__messages"></ol>
+    <div class="chat__footer">
+      <form id="message-form">
+        <input type="text" name="message" value="" placeholder="Escribe el mensaje que deseas enviar." autofocus autocomplete="off" />
+        <button>Enviar</button>
+      </form>
 
-  <form id="message-form" submit="">
-    <input type="text" name="message" value="" placeholder="Escribe el mensaje que deseas enviar." />
-    <button>Enviar</button>
-  </form>
+      <button id="enviarLocalizacion">Enviar locación</button>
+    </div>
+  </div>
 
-  <button id="enviarLocalizacion">Enviar locación</button>
+
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/libs/jquery-3.2.1.min.js"></script>
