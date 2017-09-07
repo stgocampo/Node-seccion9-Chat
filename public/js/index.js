@@ -9,16 +9,17 @@ socket.on('disconnect', function() {
 });
 
 socket.on('newMessage', function(message) {
-  console.log('Nuevo mensaje',message);
+  var fechaFormateada = moment(message.createdAt).format('h:mm a')
   var li = $('<li></li>');
-  li.text(`${message.from}: ${message.text}`);
+  li.text(`${message.from} ${fechaFormateada}: ${message.text}`);
   $("#messages").append(li);
 });
 
 socket.on('newLocationMessage', function(message) {
+  var fechaFormateada = moment(message.createdAt).format('h:mm a')
   var li = $('<li></li>');
   var a = $('<a target="_blank">Mi ubicación actual</a>');
-  li.text(`${message.from}: `);
+  li.text(`${message.from} ${fechaFormateada}: `);
   a.attr('href', message.url);
 
   li.append(a);
@@ -29,7 +30,6 @@ $("#message-form").on("submit", function(e) {
   e.preventDefault();
 
   var messageTextBox = $("[name=message]");
-
 
   socket.emit('createMessage', {
     from: 'User',
