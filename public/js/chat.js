@@ -16,15 +16,32 @@ function scrollToBottom() {
   }
 }
 
-socket.on('connect', function() {
-  console.log('Connected to server');
+socket.on('connect', function () {
+  var params = $.deparam(window.location.search)
+  socket.emit('join', params, function (err) {
+    if (err) {
+      alert(err);
+      window.location.href = '/'
+    } else {
+      console.log('Sin errores');
+    }
+  })
 });
 
-socket.on('disconnect', function() {
+socket.on('disconnect', function () {
   console.log('Disconnected from server');
 });
 
-socket.on('newMessage', function(message) {
+socket.on('updateUserList', function (users) {
+  var ol = $('<ol></ol>');
+  users.forEach(function (user) {
+    ol.append($('<li></li>').text(user))
+  });
+
+  $("#users").html(ol);
+})
+
+socket.on('newMessage', function (message) {
   var fechaFormateada = moment(message.createdAt).format('h:mm a')
   var template = $("#message-template").html();
   var html = Mustache.render(template, {
@@ -36,7 +53,7 @@ socket.on('newMessage', function(message) {
   scrollToBottom();
 });
 
-socket.on('newLocationMessage', function(message) {
+socket.on('newLocationMessage', function (message) {
   debugger;
   var fechaFormateada = moment(message.createdAt).format('h:mm a')
   var template = $("#locationMessage-template").html();
@@ -50,7 +67,7 @@ socket.on('newLocationMessage', function(message) {
   scrollToBottom();
 });
 
-$("#message-form").on("submit", function(e) {
+$("#message-form").on("submit", function (e) {
   e.preventDefault();
 
   var messageTextBox = $("[name=message]");
